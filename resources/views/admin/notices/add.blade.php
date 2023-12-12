@@ -54,8 +54,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="noticeDescription">Notice Description</label>
-                                    <textarea id="noticeDescription" name="description">
-                                    </textarea>
+                                    <textarea id="noticeDescription" name="description"></textarea>
                                     <span id="descriptionErrorSpan" class="error invalid-feedback" style="display: none"></span>
                                 </div>
                             </div>

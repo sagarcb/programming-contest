@@ -69,8 +69,8 @@
                                         <td>
                                             <div class="form-group">
                                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                    <input type="checkbox" class="custom-control-input" data-id="{{$contest->id}}" id="customSwitch3" {{$contest->active_status ? 'checked' : ''}}>
-                                                    <label class="custom-control-label" for="customSwitch3">Status</label>
+                                                    <input type="checkbox" class="custom-control-input customSwitch3" id="customSwitch{{$contest->id}}" data-id="{{$contest->id}}" {{$contest->active_status ? 'checked' : ''}}>
+                                                    <label class="custom-control-label" for="customSwitch{{$contest->id}}">Status</label>
                                                 </div>
                                             </div>
                                         </td>
@@ -133,7 +133,7 @@
                 ]
             });
 
-            $('#customSwitch3').on('change', function () {
+            $('.customSwitch3').on('change', function () {
                 let id = $(this).data('id');
                $.ajax({
                    type: 'get',

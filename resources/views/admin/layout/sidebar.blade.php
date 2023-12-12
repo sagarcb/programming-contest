@@ -36,7 +36,7 @@
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link">
-                        <i class="nav-icon fas fa-clipboard"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
                         </p>
@@ -45,7 +45,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link">
-                        <i class="nav-icon fas fa-clipboard"></i>
+                        <i class="nav-icon fas fa-exclamation-triangle"></i>
                         <p>
                             Notices
                             <i class="fas fa-angle-left right"></i>
@@ -68,7 +68,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link">
-                        <i class="nav-icon fas fa-clipboard"></i>
+                        <i class="nav-icon fas fa-trophy"></i>
                         <p>
                             Contests
                             <i class="fas fa-angle-left right"></i>

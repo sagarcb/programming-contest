@@ -58,8 +58,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="contestDescription">Contest Description</label>
-                                    <textarea id="contestDescription" name="description" class="form-control">
-                                    </textarea>
+                                    <textarea id="contestDescription" name="description" class="form-control"></textarea>
                                 </div>
                             </div>
 
