@@ -19,6 +19,6 @@
 
 {{--Page custom scripts--}}
 @yield('page-custom-scripts')
-
+<div id="overlay"></div>
 </body>
 </html>

@@ -14,11 +14,18 @@ class TeamInfo extends Model
         'email_verified', 'verification_token', 'contest_id'
         ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($team) {
+            $team->members()->delete();
+        });
+    }
+
     public function members() {
         return $this->hasMany(MemberInfo::class);
     }
 
-    public function Contest() {
+    public function contest() {
         return $this->belongsTo(Contest::class);
     }
 }

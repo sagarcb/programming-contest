@@ -70,7 +70,7 @@
                                             <div class="form-group">
                                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                                                     <input type="checkbox" class="custom-control-input customSwitch3" id="customSwitch{{$contest->id}}" data-id="{{$contest->id}}" {{$contest->active_status ? 'checked' : ''}}>
-                                                    <label class="custom-control-label" for="customSwitch{{$contest->id}}">Status</label>
+                                                    <label class="custom-control-label" for="customSwitch{{$contest->id}}"></label>
                                                 </div>
                                             </div>
                                         </td>
