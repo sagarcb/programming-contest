@@ -48,4 +48,49 @@ class TeamsController extends Controller
         $teamInfo->delete();
         return redirect()->route('teams')->with('success', 'Team Info deleted Successfully!');
     }
+
+    public function edit(TeamInfo $teamInfo) {
+        return view('admin.teams.edit')->with('team', $teamInfo);
+    }
+
+    public function update(TeamInfo $teamInfo, Request $request) {
+        $request->validate([
+            'team_name' => 'required',
+            'university_name' => 'required',
+            'coach_name' => 'required',
+            'coach_email' => 'required|email',
+            'coach_mobile_number' => 'required',
+            'coach_tshirt_size' => 'required'
+        ]);
+
+        $requestData = $request->all();
+        if (!empty($requestData) && !empty($requestData['name']) && !empty($requestData['email']) && !empty($requestData['tshirt_size'])) {
+            try {
+                if ($teamInfo->update($requestData)) {
+                    foreach ($teamInfo->members as $key => $member) {
+                        $fileStoragePath = $member->image;
+                        if (isset($requestData['image'][$key]) && !empty($requestData['image'][$key]))  {
+                            if (file_exists(asset($member->image))) {
+                                unlink(asset($member->image));
+                            }
+                            $fileName = time() . '_' . $requestData['image'][$key]->getClientOriginalName();
+                            $filePath = $requestData['image'][$key]->storeAs('uploads', $fileName, 'public');
+                            $fileStoragePath = '/storage/' . $filePath;
+                        }
+                        $memberData['name'] = $requestData['name'][$key];
+                        $memberData['email'] = $requestData['email'][$key];
+                        $memberData['image'] = $fileStoragePath;
+                        $memberData['tshirt_size'] = $requestData['tshirt_size'][$key];
+
+                        $member->update($memberData);
+                    }
+                    return redirect()->route('teams')->with('success', 'Data updated Successfully!');
+                }
+                return back()->with('error', 'Failed to update data!');
+            }catch (\Exception $exception) {
+                return back()->with('error', $exception->getMessage());
+            }
+        }
+        return back()->with('error', 'Invalid Request Data!');
+    }
 }

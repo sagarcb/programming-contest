@@ -92,7 +92,7 @@
                                             <ul style="list-style-type: none">
                                                 @foreach($team->members as $member)
                                                     <li>
-                                                        <img src="{{asset($member->image)}}" width="50px" alt="">
+                                                        <img src="{{asset($member->image)}}" style="margin-bottom: 2px" width="50px" alt="">
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -115,6 +115,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
+                                                <a href="{{route('team.edit', $team->id)}}" class="btn btn-warning mr-1"><i class="fa fa-edit"></i></a>
                                                 <form action="{{route('team.delete', $team->id)}}"
                                                       onsubmit="return confirm('Are you sure you want to delete this information?');"
                                                       method="post">

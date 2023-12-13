@@ -60,6 +60,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/', [TeamsController::class, 'index'])->name('teams');
         Route::post('/approve/{teamInfo}', [TeamsController::class, 'updateAdminApproval'])->name('adminApproval');
         Route::delete('/delete/{teamInfo}', [TeamsController::class, 'delete'])->name('team.delete');
+        Route::get('/edit/{teamInfo}', [TeamsController::class, 'edit'])->name('team.edit');
+        Route::patch('/edit/{teamInfo}', [TeamsController::class, 'update'])->name('team.edit');
     });
     /*Teams List*/
 
