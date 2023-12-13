@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\EmailVerificationMail;
 use App\Models\Contest;
+use App\Models\HeroSlider;
 use App\Models\MemberInfo;
 use App\Models\Notices;
+use App\Models\SliderImage;
 use App\Models\TeamInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -17,12 +19,14 @@ class HomeController extends Controller
 {
     public function index() {
         $contest = Contest::where('active_status', 1)->first();
+        $heroSliders = HeroSlider::all();
+        $imageGallery = SliderImage::all();
         if ($contest) {
             Session::put('active_contest', true);
         }else {
             Session::put('active_contest', false);
         }
-        return view('frontend.pages.index')->with(compact('contest'));
+        return view('frontend.pages.index')->with(compact('contest', 'heroSliders', 'imageGallery'));
     }
 
     public function registration() {

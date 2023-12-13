@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ContestController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FrontendComponentsController;
 use App\Http\Controllers\Admin\NoticesController;
 use App\Http\Controllers\Admin\TeamsController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -64,6 +65,24 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::patch('/edit/{teamInfo}', [TeamsController::class, 'update'])->name('team.edit');
     });
     /*Teams List*/
+
+    /*Image sliders*/
+    Route::prefix('hero-slider')->group(function () {
+       Route::get('/', [FrontendComponentsController::class, 'heroSliderList'])->name('heroSliders');
+       Route::get('/add', [FrontendComponentsController::class, 'heroSliderAdd'])->name('heroSliderAdd');
+       Route::post('/add', [FrontendComponentsController::class, 'heroSliderCreate'])->name('heroSliderAdd');
+       Route::get('/edit/{heroSlider}', [FrontendComponentsController::class, 'heroSliderEdit'])->name('heroSliderEdit');
+       Route::patch('/edit/{heroSlider}', [FrontendComponentsController::class, 'heroSliderUpdate'])->name('heroSliderEdit');
+       Route::delete('/delete/{heroSlider}', [FrontendComponentsController::class, 'heroSliderDelete'])->name('heroSliderDelete');
+    });
+    /*Image sliders*/
+
+    Route::prefix('slider-image')->group(function () {
+       Route::get('/', [FrontendComponentsController::class, 'sliderImageList'])->name('sliderImages');
+       Route::get('/add', [FrontendComponentsController::class, 'sliderImageAdd'])->name('sliderImage.add');
+       Route::post('/add', [FrontendComponentsController::class, 'sliderImageStore'])->name('sliderImage.add');
+       Route::delete('/delete/{sliderImage}', [FrontendComponentsController::class, 'sliderImageDelete'])->name('sliderImage.delete');
+    });
 
     /*Profile*/
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

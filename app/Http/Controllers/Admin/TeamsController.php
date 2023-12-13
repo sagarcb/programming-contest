@@ -7,6 +7,7 @@ use App\Mail\SendAdminApprovalMail;
 use App\Models\TeamInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class TeamsController extends Controller
 {
@@ -70,8 +71,8 @@ class TeamsController extends Controller
                     foreach ($teamInfo->members as $key => $member) {
                         $fileStoragePath = $member->image;
                         if (isset($requestData['image'][$key]) && !empty($requestData['image'][$key]))  {
-                            if (file_exists(asset($member->image))) {
-                                unlink(asset($member->image));
+                            if (Storage::disk('public')->exists(str_replace('/storage/', '', $member->image))) {
+                                Storage::disk('public')->delete(str_replace('/storage/', '', $member->image));
                             }
                             $fileName = time() . '_' . $requestData['image'][$key]->getClientOriginalName();
                             $filePath = $requestData['image'][$key]->storeAs('uploads', $fileName, 'public');

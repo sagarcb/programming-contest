@@ -110,7 +110,7 @@
                                                         <input type="file" name="image[]" class="form-control" id="image{{$key}}" accept="image/*">
                                                     </div>
                                                     <div class="col-4">
-                                                        @if(file_exists(asset($member->image)))
+                                                        @if(file_exists(\Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('/storage/', '', $member->image))))
                                                             <img src="{{asset($member->image)}}" style="width: 100%" alt="">
                                                         @endif
                                                     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use SebastianBergmann\Diff\Exception;
 
 class ContestController extends Controller
@@ -67,8 +68,8 @@ class ContestController extends Controller
         $requestData = $request->all();
         $requestData['banner'] = $contest->banner;
         if ($request->file())  {
-            if (file_exists(asset($contest->banner))) {
-                unlink(asset($contest->banner));
+            if (Storage::disk('public')->exists(str_replace('/storage/', '', $contest->banner))) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $contest->banner));
             }
             $fileName = time() . '_' . $request->banner->getClientOriginalName();
             $filePath = $request->file('banner')->storeAs('uploads', $fileName, 'public');

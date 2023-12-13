@@ -23,35 +23,37 @@
         <section class="hero-slider">
             <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    @foreach($heroSliders as $key=>$row)
+                        @if($key == 0)
+                            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="{{$key}}" class="active" aria-current="true" aria-label="Slide {{$key}}"></button>
+                        @else
+                            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="{{$key}}" aria-label="Slide {{$key}}"></button>
+                        @endif
+                    @endforeach
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://img.freepik.com/premium-photo/illustration-neon-tropical-theme-with-palm-tree-exotic-floral-ai_564714-1270.jpg" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>First slide label</h5>
-                            <p>Some representative placeholder content for the first slide.</p>
-                            <a href="{{$contest ? route('registration') : '#'}}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Register Now</a>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://img.freepik.com/premium-photo/illustration-neon-tropical-theme-with-palm-tree-exotic-floral-ai_564714-1270.jpg" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Second slide label</h5>
-                            <p>Some representative placeholder content for the second slide.</p>
-                            <a href="{{$contest ? route('registration') : '#'}}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Register Now</a>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://img.freepik.com/premium-photo/illustration-neon-tropical-theme-with-palm-tree-exotic-floral-ai_564714-1270.jpg" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Third slide label</h5>
-                            <p>Some representative placeholder content for the third slide.</p>
-                            <a href="{{$contest ? route('registration') : '#'}}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Register Now</a>
-                        </div>
-                    </div>
+                    @foreach($heroSliders as $key=>$row)
+                        @if($key == 0)
+                            <div class="carousel-item active">
+                                <img src="{{asset($row->slider_image)}}" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>{{$row->slider_title}}</h5>
+                                    <p>{{$row->slider_description}}</p>
+                                    <a href="{{$row->slider_button_url}}" class="btn btn-primary"><i class="fas fa-user-plus"></i>{{$row->slider_button_text}}</a>
+                                </div>
+                            </div>
+                        @else
+                            <div class="carousel-item">
+                                <img src="{{asset($row->slider_image)}}" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>{{$row->slider_title}}</h5>
+                                    <p>{{$row->slider_description}}</p>
+                                    <a href="{{$row->slider_button_url}}" class="btn btn-primary"><i class="fas fa-user-plus"></i>{{$row->slider_button_text}}</a>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -103,19 +105,11 @@
                             <div id="image-slider" class="splide">
                                 <div class="splide__track">
                                     <ul class="splide__list">
-                                        <li class="splide__slide">
-                                            <img src="https://e1.pxfuel.com/desktop-wallpaper/690/964/desktop-wallpaper-tiger-sparks-art-flash-widescreen-high-harimau.jpg" height="100" width="150">
-                                        </li>
-
-                                        <li class="splide__slide">
-                                            <img src="https://e1.pxfuel.com/desktop-wallpaper/690/964/desktop-wallpaper-tiger-sparks-art-flash-widescreen-high-harimau.jpg" height="100" width="150">
-                                        </li>
-                                        <li class="splide__slide">
-                                            <img src="https://e1.pxfuel.com/desktop-wallpaper/690/964/desktop-wallpaper-tiger-sparks-art-flash-widescreen-high-harimau.jpg" height="100" width="150">
-                                        </li>
-                                        <li class="splide__slide">
-                                            <img src="https://e1.pxfuel.com/desktop-wallpaper/690/964/desktop-wallpaper-tiger-sparks-art-flash-widescreen-high-harimau.jpg" height="100" width="150">
-                                        </li>
+                                        @foreach($imageGallery as $image)
+                                            <li class="splide__slide">
+                                                <img src="{{Storage::url($image->image)}}" height="100" width="150">
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>

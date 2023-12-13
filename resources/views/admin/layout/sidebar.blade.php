@@ -90,6 +90,41 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class="nav-icon fas fa-plus"></i>
+                        <p>
+                            Frontend Components
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('heroSliders')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Hero Slider List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('heroSliderAdd')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Hero Slider Add</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('sliderImages')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Image Slider List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('sliderImage.add')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Image Slider Add</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
