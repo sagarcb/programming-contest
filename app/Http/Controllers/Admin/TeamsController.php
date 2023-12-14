@@ -46,6 +46,11 @@ class TeamsController extends Controller
     }
 
     public function delete(TeamInfo $teamInfo) {
+        foreach ($teamInfo->members as $member) {
+            if (Storage::disk('public')->exists(str_replace('/storage/', '', $member->image))) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $member->image));
+            }
+        }
         $teamInfo->delete();
         return redirect()->route('teams')->with('success', 'Team Info deleted Successfully!');
     }

@@ -82,6 +82,9 @@ class ContestController extends Controller
     }
 
     public function delete(Contest $contest) {
+        if (Storage::disk('public')->exists(str_replace('/storage/', '', $contest->banner))) {
+            Storage::disk('public')->delete(str_replace('/storage/', '', $contest->banner));
+        }
         $contest->delete();
         return redirect()->route('notices')->with('success', 'Contest deleted Successfully!');
     }
