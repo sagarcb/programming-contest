@@ -7,7 +7,7 @@
                 <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
                     <img src="{{asset('images/logo-black.jpg')}}" alt="">
                 </a>
-                <p class="text-body-secondary"><strong>Copyright &copy; 2022-2023 Sumaiaya Zahan</strong></p>
+                <p class="text-body-secondary"><strong>Copyright &copy; 2022-2023 Sumaiya Jahan</strong></p>
             </div>
 
             <div class="col mb-3">
