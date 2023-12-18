@@ -51,7 +51,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
        Route::post('/add', [ContestController::class, 'create'])->name('contest.create');
        Route::get('/edit/{contest}', [ContestController::class, 'edit'])->name('contest.edit');
        Route::patch('/edit/{contest}', [ContestController::class, 'update'])->name('contest.update');
-       Route::patch('/delete/{contest}', [ContestController::class, 'delete'])->name('contest.delete');
+       Route::delete('/delete/{contest}', [ContestController::class, 'delete'])->name('contest.delete');
        Route::get('/change-status/{contest}', [ContestController::class, 'changeActiveStatus'])->name('contest.changeStatus');
     });
     /*Contests*/

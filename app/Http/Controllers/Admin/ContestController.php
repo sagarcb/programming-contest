@@ -86,6 +86,6 @@ class ContestController extends Controller
             Storage::disk('public')->delete(str_replace('/storage/', '', $contest->banner));
         }
         $contest->delete();
-        return redirect()->route('notices')->with('success', 'Contest deleted Successfully!');
+        return redirect()->route('contests')->with('success', 'Contest deleted Successfully!');
     }
 }

@@ -65,9 +65,12 @@ class FrontendComponentsController extends Controller
         return redirect()->route('heroSliders')->with('success', 'Hero Slider Added Successfully!');
     }
 
-    public function delete(HeroSlider $heroSlider) {
+    public function heroSliderDelete(HeroSlider $heroSlider) {
+        if (Storage::disk('public')->exists(str_replace('/storage/', '', $heroSlider->slider_image))) {
+            Storage::disk('public')->delete(str_replace('/storage/', '', $heroSlider->slider_image));
+        }
         $heroSlider->delete();
-        return redirect()->route('HeroSliders')->with('success', 'Slider Deleted successfully');
+        return redirect()->route('heroSliders')->with('success', 'Slider Deleted successfully');
     }
 
     public function sliderImageList() {
