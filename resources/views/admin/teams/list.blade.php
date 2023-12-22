@@ -6,6 +6,23 @@
     <link rel="stylesheet" href="{{asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endsection
 
+<style>
+    @media print {
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table ul {
+            list-style-type: none;
+            display: block; /* Ensures each list item is on a new line */
+        }
+        table img {
+            display: block; /* Ensures images are not hidden */
+            max-width: 100%; /* Adjusts image size for print */
+        }
+    }
+</style>
+
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -48,10 +65,11 @@
                             <h3 class="card-title">Teams List</h3>
                         </div>
                         <div class="card-body">
-                            <table id="noticesTable" class="table table-bordered table-hover">
+                            <button class="btn btn-info" id="printBtn" hidden>Print</button>
+                            <table id="teamsTable" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th class="no-print">ID</th>
                                     <th>Team name</th>
                                     <th>University Name</th>
                                     <th>Coach Name</th>
@@ -60,36 +78,37 @@
                                     <th>Members Name</th>
                                     <th>Members Emails</th>
                                     <th>Members Images</th>
-                                    <th>Email Verification Status</th>
-                                    <th>Admin Approval</th>
-                                    <th>Actions</th>
+                                    <th class="no-print">Email Verification Status</th>
+                                    <th class="no-print">Payment Status</th>
+                                    <th class="no-print">Admin Approval</th>
+                                    <th class="no-print">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($teams as $team)
                                     <tr>
-                                        <td>{{$team->id}}</td>
+                                        <td class="no-print">{{$team->id}}</td>
                                         <td>{{$team->team_name}}</td>
                                         <td>{{$team->university_name}}</td>
                                         <td>{{$team->coach_name}}</td>
                                         <td>{{$team->coach_email}}</td>
                                         <td>{{$team->coach_mobile_number}}</td>
                                         <td>
-                                            <ul style="list-style-type: none">
+                                            <ul>
                                                 @foreach($team->members as $member)
                                                     <li>{{$member->name}}</li>
                                                 @endforeach
                                             </ul>
                                         </td>
                                         <td>
-                                            <ul style="list-style-type: none">
+                                            <ul>
                                                 @foreach($team->members as $member)
                                                     <li>{{$member->email}}</li>
                                                 @endforeach
                                             </ul>
                                         </td>
                                         <td>
-                                            <ul style="list-style-type: none">
+                                            <ul>
                                                 @foreach($team->members as $member)
                                                     <li>
                                                         <img src="{{asset($member->image)}}" style="margin-bottom: 2px" width="50px" alt="">
@@ -97,7 +116,7 @@
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>
+                                        <td class="no-print">
                                             <div class="form-group">
                                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                                                     <input type="checkbox" class="custom-control-input customSwitch3 emailApproval" id="emailApproval{{$team->id}}" data-id="{{$team->id}}" {{$team->email_verified ? 'checked' : ''}} disabled>
@@ -105,7 +124,15 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="no-print">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                    <input type="checkbox" class="custom-control-input customSwitch3 paymentStatus" id="paymentStatus{{$team->id}}" data-id="{{$team->id}}" {{$team->payment_status ? 'checked' : ''}}>
+                                                    <label class="custom-control-label" for="paymentStatus{{$team->id}}"></label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="no-print">
                                             <div class="form-group">
                                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                                                     <input type="checkbox" class="custom-control-input customSwitch3 adminApproval" id="adminApproval{{$team->id}}" data-id="{{$team->id}}" {{$team->admin_approved ? 'checked' : ''}}>
@@ -113,7 +140,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="no-print">
                                             <div class="d-flex">
                                                 <a href="{{route('team.edit', $team->id)}}" class="btn btn-warning mr-1"><i class="fa fa-edit"></i></a>
                                                 <form action="{{route('team.delete', $team->id)}}"
@@ -155,18 +182,34 @@
 @section('page-custom-scripts')
     <script>
         $(function () {
-            $('#noticesTable').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": false, // Set this to false
-                "scrollX": true, // Enable horizontal scrolling
-                "columnDefs": [
-
-                ]
+            $('#teamsTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'Print',
+                        title: 'Teams List',
+                        exportOptions: {
+                            // Specify columns to include. Adjust the indexes as needed.
+                            columns: [1, 2, 3, 4, 5, 6, 7] // Example: includes first four columns
+                        },
+                        customize: function (win) {
+                            // Use a timeout to delay the closing
+                            setTimeout(function () {
+                                win.close();
+                            }, 5000);
+                        }
+                    }
+                ],
+                paging: true,
+                lengthChange: false,
+                searching: false,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: false, // Set this to false
+                scrollX: true, // Enable horizontal scrolling
+                columnDefs: [],
             });
 
             function toggleOverlay() {
@@ -187,6 +230,40 @@
                     url:  '/admin/team/approve/' + id,
                     data: {
                       value: value
+                    },
+                    beforeSend: function() {
+                        toggleOverlay(); // Enable overlay before the request
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            toastr.success(response.msg, 'Success!');
+                        }else {
+                            toastr.error(response.msg, 'Error!');
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error)
+                    },
+                    complete: function() {
+                        toggleOverlay(); // Disable overlay after the response
+                    },
+                })
+            });
+
+            $('.paymentStatus').on('change', function () {
+                const id = $(this).data('id');
+                const value = $(this).is(':checked');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url:  '/admin/team/payment-status/update/' + id,
+                    data: {
+                        value: value
                     },
                     beforeSend: function() {
                         toggleOverlay(); // Enable overlay before the request

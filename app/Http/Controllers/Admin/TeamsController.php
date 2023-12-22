@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PaymentApprovalMail;
 use App\Mail\SendAdminApprovalMail;
 use App\Models\TeamInfo;
 use Illuminate\Http\Request;
@@ -37,6 +38,30 @@ class TeamsController extends Controller
                         return response()->json(['status' => true, 'msg' => 'Registration is disapproved and email has been send successfully!']);
                     }
                     return response()->json(['status' => false, 'msg' => 'Registration is disapproved, but Failed to send email!']);
+                }
+            }catch (\Exception $exception) {
+                return response()->json(['status' => false, 'msg' => $exception->getMessage()]);
+            }
+        }
+        return response()->json(['status' => false, 'msg' => 'Invalid request data']);
+    }
+
+    public function updatePaymentStatus(TeamInfo $teamInfo, Request $request) {
+        if (!empty($request->all())) {
+            $content['name'] = $teamInfo->coach_name;
+            try {
+                if ($request->value) {
+                    $teamInfo->payment_status = 1;
+                    $teamInfo->save();
+                    $emailSend = Mail::to($teamInfo->coach_email)->send(new PaymentApprovalMail($content));
+                    if ($emailSend) {
+                        return response()->json(['status' => true, 'msg' => 'Payment Status is approved and email has been send successfully!']);
+                    }
+                    return response()->json(['status' => false, 'msg' => 'Payment Status is approved, but Failed to send email!']);
+                }else {
+                    $teamInfo->payment_status = 0;
+                    $teamInfo->save();
+                    return response()->json(['status' => true, 'msg' => 'Payment status disapproved successfully!']);
                 }
             }catch (\Exception $exception) {
                 return response()->json(['status' => false, 'msg' => $exception->getMessage()]);
