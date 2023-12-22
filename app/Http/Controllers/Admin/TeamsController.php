@@ -22,7 +22,7 @@ class TeamsController extends Controller
             $content['name'] = $teamInfo->coach_name;
             $content['value'] = $request->value == 'true' ? 1 : 0;
             try {
-                if ($request->value) {
+                if ($request->value === "true") {
                     $teamInfo->admin_approved = 1;
                     $teamInfo->save();
                     $emailSend = Mail::to($teamInfo->coach_email)->send(new SendAdminApprovalMail($content));
@@ -50,7 +50,7 @@ class TeamsController extends Controller
         if (!empty($request->all())) {
             $content['name'] = $teamInfo->coach_name;
             try {
-                if ($request->value) {
+                if ($request->value === "true") {
                     $teamInfo->payment_status = 1;
                     $teamInfo->save();
                     $emailSend = Mail::to($teamInfo->coach_email)->send(new PaymentApprovalMail($content));
